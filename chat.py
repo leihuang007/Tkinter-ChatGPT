@@ -4,6 +4,9 @@ import openai
 import os
 import pickle
 
+import socket
+import socks
+
 _api_window_hide = '600x500'
 _api_window_show = '600x650'
 
@@ -17,12 +20,51 @@ root.iconbitmap('ai_lt.ico')  # https://tkinter.com/ai_lt.ico
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
+socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9966)
+socket.socket = socks.socksocket
+
 
 def speak():
     '''
     Submit to ChatGPT
     '''
-    pass
+    if chat_entry.get():
+        # Do something
+        my_key = key()
+        if my_key:
+            # my_text.insert(END, '\n\nWorking\n')
+
+            # Query ChatGPT
+            # Define our API Key To ChatGPT
+            openai.api_key = my_key
+
+            # Create an instance
+            # print(openai.Model.list())
+
+            prompt = chat_entry.get()
+            chat_entry.delete(0, END)
+            my_text.insert(END, f'''{"Me: "+prompt:>200}\n''')
+
+            # Define our Query / Response
+            response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=prompt,
+                temperature=0,
+                max_tokens=3000,
+                top_p=0,
+                frequency_penalty=0.5,
+                presence_penalty=0.0
+            )
+            print('-'*5+prompt)
+            print(response)
+            print('-'*5)
+            my_text.insert(END, "AI:"+response["choices"][0]["text"].strip())
+            my_text.insert(END, "\n\n")
+        else:
+            my_text.insert(END, '\n\nHey, you need an API key!')
+
+    else:
+        my_text.insert(END, "\n\nHey, you forgot to type something.")
 
 
 def clear():
@@ -34,12 +76,13 @@ def clear():
     chat_entry.delete(0, END)
 
 
-def key():
+def key() -> str:
     '''
     Do API stuff
     '''
     # Define our filename
     filename = "api_key"
+    stuff = None
     try:
         if os.path.isfile(filename):
             # Open the file
@@ -51,6 +94,7 @@ def key():
             api_entry.delete(0, END)
             # Output stuff to our entry box
             api_entry.insert(END, stuff)
+
         else:
             # Create the file
             input_file = open(filename, 'wb')
@@ -65,6 +109,7 @@ def key():
     root.geometry(_api_window_show)
     # Reshow API Frame
     api_frame.pack(pady=30)
+    return stuff
 
 
 def save_key():
