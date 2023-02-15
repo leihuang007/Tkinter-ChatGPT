@@ -4,10 +4,13 @@ import openai
 import os
 import pickle
 
+_api_window_hide = '600x500'
+_api_window_show = '600x650'
+
 # Initiate App
 root = customtkinter.CTk()
 root.title("ChatGPT Bot")
-root.geometry('600x750')
+root.geometry(_api_window_hide)
 root.iconbitmap('ai_lt.ico')  # https://tkinter.com/ai_lt.ico
 
 # Set Color Scheme
@@ -25,11 +28,17 @@ def clear():
 
 # Do API stuff
 def key():
-    pass
+    # Resize App Larger
+    root.geometry(_api_window_show)
+    # Reshow API Frame
+    api_frame.pack(pady=30)
 
 # Save API Key
 def save_key():
-    pass
+    # Hide API Frame
+    api_frame.pack_forget()
+    # Resize App Smaller
+    root.geometry(_api_window_hide)
 
 # Create Text Frame
 text_frame = customtkinter.CTkFrame(root)
@@ -77,7 +86,7 @@ api_button.grid(row=0, column=2, padx=25)
 
 # Add API Key Frame
 api_frame = customtkinter.CTkFrame(root, border_width=1)
-api_frame.pack(pady=30)
+# api_frame.pack(pady=30)
 
 # Add API Entry Widget
 api_entry = customtkinter.CTkEntry(api_frame, placeholder_text="Enter Your API Key...", width=350, height=50, border_width=1)
