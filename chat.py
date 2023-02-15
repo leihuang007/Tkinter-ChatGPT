@@ -28,6 +28,23 @@ def clear():
 
 # Do API stuff
 def key():
+    # Define our filename
+    filename = "api_key"
+    if os.path.isfile(filename):
+        # Open the file
+        input_file = open(filename, 'rb')
+
+        # Load the data from the file into a variable
+        stuff = pickle.load(input_file)
+
+        # Output stuff to our entry box
+        api_entry.insert(END, stuff)
+    else:
+        # Create the file
+        input_file = open(filename, 'wb')
+        # Close the file
+        input_file.close()
+
     # Resize App Larger
     root.geometry(_api_window_show)
     # Reshow API Frame
@@ -35,6 +52,15 @@ def key():
 
 # Save API Key
 def save_key():
+    # Define our filename
+    filename = "api_key"
+
+    # Open file
+    output_file = open(filename, 'wb')
+
+    # Actually add the data to the file
+    pickle.dump(api_entry.get(), output_file)
+
     # Hide API Frame
     api_frame.pack_forget()
     # Resize App Smaller
