@@ -29,7 +29,9 @@ def clear():
     '''
     Clear The Screens
     '''
-    pass
+    # Clear The Main Text Box
+    my_text.delete(1.0, END)
+    chat_entry.delete(0, END)
 
 
 def key():
@@ -52,6 +54,8 @@ def key():
         else:
             # Create the file
             input_file = open(filename, 'wb')
+            # Generate some error message.
+            pickle.dump('Need a key.', input_file)
             # Close the file
             input_file.close()
     except Exception as e:
