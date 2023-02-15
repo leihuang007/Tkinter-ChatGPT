@@ -63,11 +63,11 @@ button_frame.pack(pady=10)
 submit_button = customtkinter.CTkButton(button_frame, text="Speak To ChatGPT", command=speak)
 submit_button.grid(row=0, column=0, padx=25)
 
-# Create Submit Button
+# Create Clear Button
 clear_button = customtkinter.CTkButton(button_frame, text="Clear Response", command=clear)
 clear_button.grid(row=0, column=1, padx=35)
 
-# Create Submit Button
+# Create API Button
 api_button = customtkinter.CTkButton(button_frame, text="Update API Key", command=key)
 api_button.grid(row=0, column=2, padx=25)
 
