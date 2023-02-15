@@ -18,49 +18,65 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
 
-# Submit to ChatGPT
 def speak():
+    '''
+    Submit to ChatGPT
+    '''
     pass
 
-# Clear The Screens
+
 def clear():
+    '''
+    Clear The Screens
+    '''
     pass
 
-# Do API stuff
+
 def key():
+    '''
+    Do API stuff
+    '''
     # Define our filename
     filename = "api_key"
-    if os.path.isfile(filename):
-        # Open the file
-        input_file = open(filename, 'rb')
+    try:
+        if os.path.isfile(filename):
+            # Open the file
+            input_file = open(filename, 'rb')
 
-        # Load the data from the file into a variable
-        stuff = pickle.load(input_file)
-        # Delete Entry Box
-        api_entry.delete(0, END)
-        # Output stuff to our entry box
-        api_entry.insert(END, stuff)
-    else:
-        # Create the file
-        input_file = open(filename, 'wb')
-        # Close the file
-        input_file.close()
+            # Load the data from the file into a variable
+            stuff = pickle.load(input_file)
+            # Delete Entry Box
+            api_entry.delete(0, END)
+            # Output stuff to our entry box
+            api_entry.insert(END, stuff)
+        else:
+            # Create the file
+            input_file = open(filename, 'wb')
+            # Close the file
+            input_file.close()
+    except Exception as e:
+        my_text.insert(END, f"\n\n There was an error\n\n{e}")
 
     # Resize App Larger
     root.geometry(_api_window_show)
     # Reshow API Frame
     api_frame.pack(pady=30)
 
-# Save API Key
+
 def save_key():
+    '''
+    Save API Key
+    '''
     # Define our filename
     filename = "api_key"
+    try:
+        # Open file
+        output_file = open(filename, 'wb')
 
-    # Open file
-    output_file = open(filename, 'wb')
-
-    # Actually add the data to the file
-    pickle.dump(api_entry.get(), output_file)
+        # Actually add the data to the file
+        pickle.dump(api_entry.get(), output_file)
+    except Exception as e:
+        my_text.insert(END, f"\n\n There was an error\n\n{e}")
 
     # Delete Entry Box
     api_entry.delete(0, END)
@@ -69,6 +85,7 @@ def save_key():
     api_frame.pack_forget()
     # Resize App Smaller
     root.geometry(_api_window_hide)
+
 
 # Create Text Frame
 text_frame = customtkinter.CTkFrame(root)
@@ -103,15 +120,18 @@ button_frame = customtkinter.CTkFrame(root, fg_color="#242424")
 button_frame.pack(pady=10)
 
 # Create Submit Button
-submit_button = customtkinter.CTkButton(button_frame, text="Speak To ChatGPT", command=speak)
+submit_button = customtkinter.CTkButton(
+    button_frame, text="Speak To ChatGPT", command=speak)
 submit_button.grid(row=0, column=0, padx=25)
 
 # Create Clear Button
-clear_button = customtkinter.CTkButton(button_frame, text="Clear Response", command=clear)
+clear_button = customtkinter.CTkButton(
+    button_frame, text="Clear Response", command=clear)
 clear_button.grid(row=0, column=1, padx=35)
 
 # Create API Button
-api_button = customtkinter.CTkButton(button_frame, text="Update API Key", command=key)
+api_button = customtkinter.CTkButton(
+    button_frame, text="Update API Key", command=key)
 api_button.grid(row=0, column=2, padx=25)
 
 # Add API Key Frame
@@ -119,13 +139,14 @@ api_frame = customtkinter.CTkFrame(root, border_width=1)
 # api_frame.pack(pady=30)
 
 # Add API Entry Widget
-api_entry = customtkinter.CTkEntry(api_frame, placeholder_text="Enter Your API Key...", width=350, height=50, border_width=1)
+api_entry = customtkinter.CTkEntry(
+    api_frame, placeholder_text="Enter Your API Key...", width=350, height=50, border_width=1)
 api_entry.grid(row=0, column=0, padx=20, pady=20)
 
 # Add API Button
-api_save_button = customtkinter.CTkButton(api_frame, text="Save Key", command=save_key)
+api_save_button = customtkinter.CTkButton(
+    api_frame, text="Save Key", command=save_key)
 api_save_button.grid(row=0, column=1, padx=10)
-
 
 
 root.mainloop()
