@@ -1,0 +1,45 @@
+import openai
+
+import socket
+import socks
+
+from sseclient import SSEClient
+
+OPENAI_API_KEY = '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'
+socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9966)
+socket.socket = socks.socksocket
+
+openai.api_key = OPENAI_API_KEY
+
+
+def get_response(prompt: str):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        temperature=1,
+        stream=True,
+        max_tokens=3000,
+        top_p=0,
+        frequency_penalty=0.5,
+        presence_penalty=0.0
+    )
+    print(response)
+
+def get_response_sse(prompt: str):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        temperature=1,
+        stream=True,
+        max_tokens=3000,
+        top_p=0,
+        frequency_penalty=0.5,
+        presence_penalty=0.0
+    )
+    return response
+
+
+if __name__ == '__main__':
+    message = get_response_sse('Hello, how are you doing?')
+    for msg in message:
+        print(msg['choices'][0]['text'], end='')
