@@ -38,8 +38,17 @@ def get_response_sse(prompt: str):
     )
     return response
 
+def get_image(prompt:str):
+    response = openai.Image.create(
+        prompt=prompt,
+        size='256x256',
+        response_format = 'url'
+    )
+    return response
 
 if __name__ == '__main__':
-    message = get_response_sse('Hello, how are you doing?')
-    for msg in message:
-        print(msg['choices'][0]['text'], end='')
+    # message = get_response_sse('生成一幅图片，小黄人蹦在半空中。')
+    # for msg in message:
+    #     print(msg['choices'][0]['text'], end='')
+    response = get_image('木匠在满是烟尘的工作室中认真工作。卡通风格，要有科幻的效果。')
+    print(response)
