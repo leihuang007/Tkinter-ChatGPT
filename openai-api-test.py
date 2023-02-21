@@ -5,7 +5,7 @@ import socks
 
 from sseclient import SSEClient
 
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = ''
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9966)
 socket.socket = socks.socksocket
 
