@@ -2,10 +2,11 @@ import openai
 
 import socket
 import socks
+import pickle
 
 from sseclient import SSEClient
 
-OPENAI_API_KEY = ''
+OPENAI_API_KEY = pickle.load(open("./api_key", 'rb'))
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 9966)
 socket.socket = socks.socksocket
 
